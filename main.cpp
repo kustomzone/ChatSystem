@@ -1,7 +1,7 @@
 #include "chatsystem.h"
 #include <QApplication>
 //#include <QtGui/QApplication>
-//#include <QTextCodec>s
+//#include <QTextCodec>
 
 int main(int argc, char *argv[])
 {

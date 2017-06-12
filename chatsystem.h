@@ -11,6 +11,13 @@
 #include <QMessageBox>
 #include <QNetworkInterface>
 #include <QScrollBar>
+#include <QtDebug>
+#include <QFileDialog>
+#include <QColorDialog>
+#include <QTextCharFormat>
+
+class QUdpSocket;
+class TcpServer;
 
 namespace Ui {
 class ChatSystem;
@@ -32,6 +39,10 @@ protected:
     void userJoin(QString userName, QString localHostName, QString ipAddress);
     void userLeave(QString userName, QString localHostName, QString time);
     void sendMessage(MessageType type, QString serverAddress="");
+    void hasPendingFile(QString userName, QString serverAddress, QString clientAddress, QString fileName);
+
+    bool saveFile(const QString& fileName);
+    void closeEvent(QCloseEvent *);
 
     QString getIP();
     QString getUserName();
@@ -42,10 +53,28 @@ private:
     QUdpSocket *udpSocket;
     qint16 port;
 
+    QString fileName;
+    TcpServer *server;
+
+    QColor color;
+
 private slots:
     void processPendingDatagrams();
+    void getFileName(QString);
+    void currentFormatChanged(const QTextCharFormat &format);
+
     void on_sendBtn_clicked();
     void on_exitBtn_clicked();
+    void on_sendToolBtn_clicked();
+    void on_fontComboBox_currentFontChanged(const QFont &f);
+    void on_sizeComboBox_currentIndexChanged(const QString &arg1);
+    void on_boldToolBtn_clicked(bool checked);
+    void on_italicToolBtn_clicked(bool checked);
+    void on_underlineToolBtn_clicked(bool checked);
+    void on_colorToolBtn_clicked();
+
+    void on_saveToolBtn_clicked();
+    void on_clearToolBtn_clicked();
 };
 
 #endif // CHATSYSTEM_H

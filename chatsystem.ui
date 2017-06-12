@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>ChatSystem</string>
+   <string>聊天室</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QTableWidget" name="userTableWidget">
@@ -56,11 +56,14 @@
    <widget class="QToolButton" name="sendToolBtn">
     <property name="geometry">
      <rect>
-      <x>350</x>
-      <y>360</y>
-      <width>30</width>
-      <height>30</height>
+      <x>310</x>
+      <y>370</y>
+      <width>20</width>
+      <height>20</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-image:url(:/new/tools/images/send.png)</string>
     </property>
     <property name="text">
      <string>...</string>
@@ -78,7 +81,7 @@
       <x>0</x>
       <y>-20</y>
       <width>561</width>
-      <height>371</height>
+      <height>381</height>
      </rect>
     </property>
    </widget>
@@ -158,11 +161,14 @@
    <widget class="QToolButton" name="italicToolBtn">
     <property name="geometry">
      <rect>
-      <x>230</x>
-      <y>360</y>
-      <width>30</width>
-      <height>30</height>
+      <x>220</x>
+      <y>370</y>
+      <width>20</width>
+      <height>20</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-image:url(:/new/tools/images/italic.png)</string>
     </property>
     <property name="text">
      <string>...</string>
@@ -187,11 +193,14 @@
    <widget class="QToolButton" name="clearToolBtn">
     <property name="geometry">
      <rect>
-      <x>430</x>
-      <y>360</y>
-      <width>30</width>
-      <height>30</height>
+      <x>370</x>
+      <y>370</y>
+      <width>20</width>
+      <height>20</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-image:url(:/new/tools/images/clear.png)</string>
     </property>
     <property name="text">
      <string>...</string>
@@ -206,11 +215,14 @@
    <widget class="QToolButton" name="colorToolBtn">
     <property name="geometry">
      <rect>
-      <x>310</x>
-      <y>360</y>
-      <width>30</width>
-      <height>30</height>
+      <x>280</x>
+      <y>370</y>
+      <width>20</width>
+      <height>20</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-image:url(:/new/tools/images/color.png)</string>
     </property>
     <property name="text">
      <string>...</string>
@@ -225,10 +237,10 @@
    <widget class="QLabel" name="userNumLabel">
     <property name="geometry">
      <rect>
-      <x>470</x>
-      <y>360</y>
+      <x>460</x>
+      <y>370</y>
       <width>81</width>
-      <height>31</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -248,11 +260,14 @@
    <widget class="QToolButton" name="underlineToolBtn">
     <property name="geometry">
      <rect>
-      <x>270</x>
-      <y>360</y>
-      <width>30</width>
-      <height>30</height>
+      <x>250</x>
+      <y>370</y>
+      <width>20</width>
+      <height>20</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-image:url(:/new/tools/images/under.png)</string>
     </property>
     <property name="text">
      <string>...</string>
@@ -267,11 +282,14 @@
    <widget class="QToolButton" name="saveToolBtn">
     <property name="geometry">
      <rect>
-      <x>390</x>
-      <y>360</y>
-      <width>30</width>
-      <height>30</height>
+      <x>340</x>
+      <y>370</y>
+      <width>20</width>
+      <height>20</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-image:url(:/new/tools/images/save.png)</string>
     </property>
     <property name="text">
      <string>...</string>
@@ -287,13 +305,13 @@
     <property name="geometry">
      <rect>
       <x>190</x>
-      <y>360</y>
-      <width>30</width>
-      <height>30</height>
+      <y>370</y>
+      <width>20</width>
+      <height>20</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true"/>
+     <string notr="true">background-image:url(:/new/tools/images/bold.png)</string>
     </property>
     <property name="text">
      <string>...</string>
@@ -303,6 +321,9 @@
       <width>16</width>
       <height>16</height>
      </size>
+    </property>
+    <property name="autoRaise">
+     <bool>false</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="exitBtn">

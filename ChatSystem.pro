@@ -13,11 +13,17 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        chatsystem.cpp
+        chatsystem.cpp \
+    tcpclient.cpp \
+    tcpserver.cpp
 
-HEADERS  += chatsystem.h
+HEADERS  += chatsystem.h \
+    tcpclient.h \
+    tcpserver.h
 
-FORMS    += chatsystem.ui
+FORMS    += chatsystem.ui \
+    tcpclient.ui \
+    tcpserver.ui
 
 #RESOURCES += \
 #    images.qrc
