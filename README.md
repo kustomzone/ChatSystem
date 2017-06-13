@@ -4,7 +4,7 @@
 
 聊天端口即为聊天室房号，请开房和谐聊天 ~
 
-![](http://ojlsgreog.bkt.clouddn.com/logo.ico)
+![](http://ojlsgreog.bkt.clouddn.com/logo_19.05.46.png)
 
 
 ## 下载
