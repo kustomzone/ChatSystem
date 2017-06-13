@@ -1,8 +1,15 @@
-#ifndef TCPSERVER_H
+﻿#ifndef TCPSERVER_H
 #define TCPSERVER_H
 
 #include <QDialog>
 #include <QTime>
+#include <QFile>
+#include <QTcpServer>
+#include <QTcpSocket>
+#include <QMessageBox>
+#include <QFileDialog>
+#include <QDebug>
+
 class QFile;
 class QTcpServer;
 class QTcpSocket;
@@ -16,7 +23,7 @@ class TcpServer : public QDialog
     Q_OBJECT
 
 public:
-    explicit TcpServer(QWidget *parent = 0);
+    explicit TcpServer(qint16 filePort, QWidget *parent = 0);
     ~TcpServer();
 
     void initServer();
@@ -28,7 +35,7 @@ protected:
 private:
     Ui::TcpServer *ui;
 
-    qint16 tcpPort;
+    qint16 filePort;
     QTcpServer *tcpServer;
     QString fileName;
     QString theFileName;

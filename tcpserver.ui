@@ -10,16 +10,32 @@
     <height>193</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>298</width>
+    <height>193</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>298</width>
+    <height>193</height>
+   </size>
+  </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>发送文件</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="images.qrc">
+    <normaloff>:/new/tools/images/logo.ico</normaloff>:/new/tools/images/logo.ico</iconset>
   </property>
   <widget class="QLabel" name="serverStatusLabel">
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>20</y>
+     <y>30</y>
      <width>231</width>
-     <height>51</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
@@ -55,7 +71,7 @@
   <widget class="QPushButton" name="serverCloseBtn">
    <property name="geometry">
     <rect>
-     <x>200</x>
+     <x>100</x>
      <y>150</y>
      <width>80</width>
      <height>20</height>
@@ -68,7 +84,7 @@
   <widget class="QPushButton" name="serverSendBtn">
    <property name="geometry">
     <rect>
-     <x>100</x>
+     <x>200</x>
      <y>150</y>
      <width>80</width>
      <height>20</height>
@@ -79,6 +95,8 @@
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="images.qrc"/>
+ </resources>
  <connections/>
 </ui>

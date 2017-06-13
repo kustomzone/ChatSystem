@@ -1,7 +1,7 @@
 ﻿#include "tcpclient.h"
 #include "ui_tcpclient.h"
 
-TcpClient::TcpClient(QWidget *parent) :
+TcpClient::TcpClient(qint16 filePort, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::TcpClient)
 {
@@ -13,8 +13,8 @@ TcpClient::TcpClient(QWidget *parent) :
     bytesReceived = 0;
     fileNameSize = 0;
 
+    this->filePort = filePort;
     tcpClient = new QTcpSocket(this);
-    tcpPort = 6666;
     connect(tcpClient, SIGNAL(readyRead()), this, SLOT(readMessage()));
     connect(tcpClient, SIGNAL(error(QAbstractSocket::SocketError)), this,
             SLOT(displayError(QAbstractSocket::SocketError)));
@@ -43,7 +43,7 @@ void TcpClient::newConnect()
 {
     blockSize = 0;
     tcpClient->abort();
-    tcpClient->connectToHost(hostAddress, tcpPort);
+    tcpClient->connectToHost(hostAddress, filePort);
     time.start();
 }
 
@@ -51,7 +51,6 @@ void TcpClient::newConnect()
 void TcpClient::readMessage()
 {
     QDataStream in(tcpClient);
-    in.setVersion(QDataStream::Qt_4_7);
 
     float useTime = time.elapsed();
 

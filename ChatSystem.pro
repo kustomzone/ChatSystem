@@ -15,18 +15,30 @@ TEMPLATE = app
 SOURCES += main.cpp\
         chatsystem.cpp \
     tcpclient.cpp \
-    tcpserver.cpp
+    tcpserver.cpp \
+    login.cpp
 
 HEADERS  += chatsystem.h \
     tcpclient.h \
-    tcpserver.h
+    tcpserver.h \
+    login.h
 
 FORMS    += chatsystem.ui \
     tcpclient.ui \
-    tcpserver.ui
-
-#RESOURCES += \
-#    images.qrc
+    tcpserver.ui \
+    login.ui
 
 RESOURCES += \
     images.qrc
+
+win32 {
+    RC_FILE = logo.rc
+}
+
+#macx{
+#    ICON = logo.icns
+#}
+
+#unix:!macx{
+#    kde-config --path icon
+#}

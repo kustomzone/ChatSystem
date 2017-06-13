@@ -1,15 +1,7 @@
 ﻿#include "tcpserver.h"
 #include "ui_tcpserver.h"
 
-#include <QFile>
-#include <QTcpServer>
-#include <QTcpSocket>
-#include <QMessageBox>
-#include <QFileDialog>
-#include <QDebug>
-
-
-TcpServer::TcpServer(QWidget *parent) :
+TcpServer::TcpServer(qint16 filePort, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::TcpServer)
 {
@@ -17,7 +9,7 @@ TcpServer::TcpServer(QWidget *parent) :
 
     setFixedSize(350,180);
 
-    tcpPort = 6666;
+    this->filePort = filePort;
     tcpServer = new QTcpServer(this);
     connect(tcpServer, SIGNAL(newConnection()), this, SLOT(sendMessage()));
 
@@ -32,12 +24,12 @@ TcpServer::~TcpServer()
 // 初始化
 void TcpServer::initServer()
 {
+    ui->serverStatusLabel->setText(QStringLiteral("请选择要发送的文件"));
     payloadSize = 64*1024;
     TotalBytes = 0;
     bytesWritten = 0;
     bytesToWrite = 0;
 
-    ui->serverStatusLabel->setText(QStringLiteral("请选择要发送的文件"));
     ui->progressBar->reset();
     ui->serverOpenBtn->setEnabled(true);
     ui->serverSendBtn->setEnabled(false);
@@ -63,8 +55,8 @@ void TcpServer::sendMessage()
     }
     TotalBytes = localFile->size();
     QDataStream sendOut(&outBlock, QIODevice::WriteOnly);
-//    sendOut.setVersion(QDataStream::Qt_4_7);
-    time.start();  // 开始计时
+    // 开始计时
+    time.start();
     QString currentFile = fileName.right(fileName.size()
                                          - fileName.lastIndexOf('/')-1);
     sendOut << qint64(0) << qint64(0) << currentFile;
@@ -124,7 +116,7 @@ void TcpServer::on_serverOpenBtn_clicked()
 // 发送按钮
 void TcpServer::on_serverSendBtn_clicked()
 {
-    if(!tcpServer->listen(QHostAddress::Any,tcpPort))//开始监听
+    if(!tcpServer->listen(QHostAddress::Any,filePort))//开始监听
     {
         qDebug() << tcpServer->errorString();
         close();

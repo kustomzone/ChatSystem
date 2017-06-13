@@ -32,7 +32,7 @@ class ChatSystem : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit ChatSystem(QWidget *parent = 0);
+    explicit ChatSystem(qint16 chatPort, qint16 filePort, QWidget *parent = 0);
     ~ChatSystem();
 
 protected:
@@ -51,7 +51,8 @@ protected:
 private:
     Ui::ChatSystem *ui;
     QUdpSocket *udpSocket;
-    qint16 port;
+    qint16 chatPort;
+    qint16 filePort;
 
     QString fileName;
     TcpServer *server;

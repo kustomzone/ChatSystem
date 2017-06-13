@@ -1,22 +1,27 @@
 ﻿#include "chatsystem.h"
 #include "ui_chatsystem.h"
-//#include "iostream"
 #include "tcpclient.h"
 #include "tcpserver.h"
 
-ChatSystem::ChatSystem(QWidget *parent) :
+ChatSystem::ChatSystem(qint16 chatPort, qint16 filePort, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::ChatSystem)
 {
     ui->setupUi(this);
 
+    // 获取聊天端口、文件端口
+    this->chatPort = chatPort;
+    this->filePort = filePort;
+
+    // 绑定 UDP Socket，使用 UDP 进行消息传输
     udpSocket = new QUdpSocket(this);
-    port = 6699;
-    udpSocket->bind(port, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint);
+    udpSocket->bind(chatPort, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint);
     connect(udpSocket, SIGNAL(readyRead()), this, SLOT(processPendingDatagrams()));
+    // 用户加入消息
     sendMessage(UserJoin);
 
-    server = new TcpServer(this);
+    // 使用 TCP 进行文件传输
+    server = new TcpServer(this->filePort);
     connect(server, SIGNAL(sendFileName(QString)), this, SLOT(getFileName(QString)));
 
     connect(ui->messageTextEdit, SIGNAL(currentCharFormatChanged(QTextCharFormat)),
@@ -39,6 +44,7 @@ void ChatSystem::sendMessage(MessageType type, QString serverAddress)
     QString clientAddress;
     int row;
 
+    // 消息共同的数据流的顺序为：消息类型、用户名、用户主机名
     out << type << getUserName() << localHostName;
 
     switch (type) {
@@ -48,6 +54,7 @@ void ChatSystem::sendMessage(MessageType type, QString serverAddress)
             QMessageBox::warning(0, QStringLiteral("警告"), QStringLiteral("发送内容不能为空"), QMessageBox::Ok);
             return;
         }
+        // 消息数据流的顺序为：消息类型、用户名、用户主机名、IP地址、消息内容
         out << address << getMessage();
         ui->messageBrowser->verticalScrollBar()->setValue(ui->messageBrowser->verticalScrollBar()->maximum());
         break;
@@ -69,13 +76,8 @@ void ChatSystem::sendMessage(MessageType type, QString serverAddress)
         out << serverAddress;
         break;
 
-
     }
-
-    //    qDebug() << QString(data);
-    //    qDebug() << data.toHex();
-
-    udpSocket->writeDatagram(data, data.length(), QHostAddress::Broadcast, port);
+    udpSocket->writeDatagram(data, data.length(), QHostAddress::Broadcast, chatPort);
 }
 
 // 接收UDP消息
@@ -88,13 +90,8 @@ void ChatSystem::processPendingDatagrams()
         datagram.resize(udpSocket->pendingDatagramSize());
         // 读取数据报
         udpSocket->readDatagram(datagram.data(), datagram.size());
-
-        //        QString strMes(datagram);
-        //        qDebug()<<strMes;
-
         // 定义数据流
         QDataStream in(&datagram, QIODevice::ReadOnly);
-        //        in.setVersion(QDataStream::Qt_5_7);
         int messageType;
         in >> messageType;
         // 用户名，主机名，IP地址，消息
@@ -163,14 +160,6 @@ void ChatSystem::userJoin(QString userName, QString localHostName, QString ipAdd
 
         sendMessage(UserJoin);
     }
-    //    else{
-    //        ui->messageBrowser->setTextColor(Qt::gray);
-    //        ui->messageBrowser->setCurrentFont(QFont("Times New Roman",10));
-    //        ui->messageBrowser->append(QStringLiteral("%1 加入！").arg(userName));
-    //        ui->userNumLabel->setText(QStringLiteral("在线人数：%1").arg(ui->userTableWidget->rowCount()+1));
-
-    //        //        sendMessage(UserJoin);
-    //    }
 }
 
 
@@ -229,7 +218,7 @@ QString ChatSystem::getUserName()
 // 获得要发送的消息
 QString ChatSystem::getMessage()
 {
-    QString msg = ui->messageTextEdit->toHtml()/*toPlainText()*/;
+    QString msg = ui->messageTextEdit->toHtml();
     ui->messageTextEdit->clear();
     ui->messageTextEdit->setFocus();
     return msg;
@@ -242,6 +231,7 @@ void ChatSystem::getFileName(QString name)
     sendMessage(FileName);
 }
 
+// 发送文件按钮
 void ChatSystem::on_sendToolBtn_clicked()
 {
     if(ui->userTableWidget->selectedItems().isEmpty())
@@ -268,7 +258,7 @@ void ChatSystem::hasPendingFile(QString userName, QString serverAddress,
             QString name = QFileDialog::getSaveFileName(0,QStringLiteral("保存文件"),fileName);
             if(!name.isEmpty())
             {
-                TcpClient *client = new TcpClient(this);
+                TcpClient *client = new TcpClient(this->filePort);
                 client->setFileName(name);
                 client->setHostAddress(QHostAddress(serverAddress));
                 client->show();

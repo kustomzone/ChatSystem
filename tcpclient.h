@@ -20,7 +20,7 @@ class TcpClient : public QDialog
     Q_OBJECT
 
 public:
-    explicit TcpClient(QWidget *parent = 0);
+    explicit TcpClient(qint16 filePort, QWidget *parent = 0);
     ~TcpClient();
 
     void setHostAddress(QHostAddress address);
@@ -34,7 +34,7 @@ private:
     QTcpSocket *tcpClient;
     quint16 blockSize;
     QHostAddress hostAddress;
-    qint16 tcpPort;
+    qint16 filePort;
 
     qint64 TotalBytes;
     qint64 bytesReceived;
